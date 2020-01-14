@@ -1,5 +1,6 @@
 using System;
 
+
 namespace WasteRecycling
 {
     public class Dustbin
@@ -12,9 +13,9 @@ namespace WasteRecycling
         public Dustbin(string color)
         {
             Color = color;
-            PaperContent = new PaperGarbage[15];
-            PlasticContent = new PlasticGarbage[15];
-            HouseWasteContent = new Garbage[15];
+            PaperContent = new PaperGarbage[0];
+            PlasticContent = new PlasticGarbage[0];
+            HouseWasteContent = new Garbage[0];
         }
 
         private int Cointains(Garbage[] garbages)
@@ -81,19 +82,8 @@ namespace WasteRecycling
 
                 if (plastic.Cleaned)
                 {
-                    int index = -1;
-                    for (int i = 0; i < PlasticContent.Length; i++)
-                    {
-                        if (PlasticContent[i] == null)
-                        {
-                            index = i;
-                        }
-                    }
-                    if (index == -1)
-                    {
-                        throw new DustbinContentException("Plastic garbage need to be emptied");
-                    }
-                    PlasticContent[index] = plastic;
+                    Array.Resize(ref PlasticContent, +1);
+                    PlasticContent[PlasticContent.Length - 1] = plastic;
                 }
                 else
                 {
@@ -105,19 +95,8 @@ namespace WasteRecycling
                 PaperGarbage paper = (PaperGarbage)garbage;
                 if (paper.Squeezed)
                 {
-                    int index = -1;
-                    for (int i = 0; i < PaperContent.Length; i++)
-                    {
-                        if (PaperContent[i] == null)
-                        {
-                            index = i;
-                        }
-                    }
-                    if (index == -1)
-                    {
-                        throw new DustbinContentException("Paper garbage need to be emptied");
-                    }
-                    PaperContent[index] = paper;
+                    Array.Resize(ref PaperContent, +1);
+                    PaperContent[PaperContent.Length - 1] = paper;
                 }
                 else
                 {
@@ -126,19 +105,8 @@ namespace WasteRecycling
             }
             else if (garbage is Garbage)
             {
-                int index = -1;
-                for (int i = 0; i < HouseWasteContent.Length; i++)
-                {
-                    if (HouseWasteContent[i] == null)
-                    {
-                        index = i;
-                    }
-                }
-                if (index == -1)
-                {
-                    throw new DustbinContentException("House waste need to be emptied");
-                }
-                HouseWasteContent[index] = garbage;
+                Array.Resize(ref HouseWasteContent, +1);
+                HouseWasteContent[HouseWasteContent.Length - 1] = garbage;
             }
             else
             {
@@ -149,12 +117,11 @@ namespace WasteRecycling
 
         public void EmptyContents()
         {
-            for (int i = 0; i < PaperContent.Length; i++)
-            {
-                PaperContent[i] = null;
-                PlasticContent[i] = null;
-                HouseWasteContent[i] = null;
-            }
+
+            this.PaperContent = new PaperGarbage[0];
+            this.PlasticContent = new PlasticGarbage[0];
+            this.HouseWasteContent = new Garbage[0];
+
         }
 
     }
